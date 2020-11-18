@@ -74,12 +74,16 @@ public class BoardModel {
 			}
 		}
 		cells = nextCells;
+
+		fireUpdate();
 	}
 
 	public void undo() {
 		if (isUndoable()) {
 			cells = cellHistory.getFirst();
 			cellHistory.removeFirst();
+
+			fireUpdate();
 		}
 	}
 
