@@ -2,7 +2,9 @@ package lifegame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -38,6 +40,16 @@ public class Main implements Runnable {
 		view.addMouseListener(view);
 		view.addMouseMotionListener(view);
 		model.addListener(view);
+
+		JPanel buttonPanel = new JPanel();
+		base.add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel.setLayout(new FlowLayout());
+
+		JButton nextButton = new JButton("Next");
+		buttonPanel.add(nextButton);
+
+		JButton undoButton = new JButton("Undo");
+		buttonPanel.add(undoButton);
 
 		base.add(view, BorderLayout.CENTER);
 
