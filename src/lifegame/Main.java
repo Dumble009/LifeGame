@@ -52,24 +52,39 @@ public class Main implements Runnable {
 		nextButton.addActionListener(
 				(ActionEvent e) -> {
 					model.next();
-					undoButton.setEnabled(true);
 				});
 		buttonPanel.add(nextButton);
 
 		undoButton.addActionListener((ActionEvent e) -> {
 			model.undo();
-			if (!model.isUndoable()) {
-				undoButton.setEnabled(false);
-			}
 		});
 		buttonPanel.add(undoButton);
 		undoButton.setEnabled(false);
+		model.addListener((BoardModel m) -> {
+			undoButton.setEnabled(model.isUndoable());
+		});
 
 		JButton newGameButton = new JButton("New Game");
 		newGameButton.addActionListener((ActionEvent e) -> {
 			SwingUtilities.invokeLater(new Main());
 		});
 		buttonPanel.add(newGameButton);
+
+		AutoRunner autoThread = new AutoRunner();
+		autoThread.setModel(model);
+		autoThread.start();
+
+		JButton autoButton = new JButton("Auto");
+		autoButton.addActionListener((ActionEvent e) -> {
+			if (autoThread.getIsRunning()) {
+				autoThread.stopRun();
+				autoButton.setText("Auto");
+			} else {
+				autoThread.startRun();
+				autoButton.setText("Stop");
+			}
+		});
+		buttonPanel.add(autoButton);
 
 		base.add(view, BorderLayout.CENTER);
 
