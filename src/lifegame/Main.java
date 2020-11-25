@@ -47,17 +47,23 @@ public class Main implements Runnable {
 		buttonPanel.setLayout(new FlowLayout());
 
 		JButton nextButton = new JButton("Next");
+		JButton undoButton = new JButton("Undo");
+
 		nextButton.addActionListener(
 				(ActionEvent e) -> {
 					model.next();
+					undoButton.setEnabled(true);
 				});
 		buttonPanel.add(nextButton);
 
-		JButton undoButton = new JButton("Undo");
 		undoButton.addActionListener((ActionEvent e) -> {
 			model.undo();
+			if (!model.isUndoable()) {
+				undoButton.setEnabled(false);
+			}
 		});
 		buttonPanel.add(undoButton);
+		undoButton.setEnabled(false);
 
 		JButton newGameButton = new JButton("New Game");
 		newGameButton.addActionListener((ActionEvent e) -> {
