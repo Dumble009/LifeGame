@@ -6,8 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 public class Main implements Runnable {
@@ -45,6 +48,20 @@ public class Main implements Runnable {
 		JPanel buttonPanel = new JPanel();
 		base.add(buttonPanel, BorderLayout.SOUTH);
 		buttonPanel.setLayout(new FlowLayout());
+
+		JDialog dialog = new JDialog(frame, "Dialog");
+		dialog.setPreferredSize(new Dimension(200, 200));
+		dialog.getContentPane().setLayout(new FlowLayout());
+		dialog.pack();
+		JPanel dialogInputPanel = new JPanel();
+		dialog.add(dialogInputPanel, BorderLayout.WEST);
+		dialogInputPanel.setLayout(new FlowLayout());
+		dialog.getContentPane().add(dialogInputPanel);
+
+		JPanel dialogButtonPanel = new JPanel();
+		dialog.add(dialogButtonPanel, BorderLayout.SOUTH);
+		dialogButtonPanel.setLayout(new FlowLayout());
+		dialog.getContentPane().add(dialogButtonPanel);
 
 		JButton nextButton = new JButton("Next");
 		JButton undoButton = new JButton("Undo");
@@ -86,8 +103,20 @@ public class Main implements Runnable {
 		});
 		buttonPanel.add(autoButton);
 
+		JButton configButton = new JButton("Config");
+		configButton.addActionListener((ActionEvent e) -> {
+			dialog.setVisible(true);
+		});
+		buttonPanel.add(configButton);
+
+		JSpinner calField = new JSpinner(new SpinnerNumberModel(12, 2, 30, 1)),
+				rowField = new JSpinner(new SpinnerNumberModel(12, 2, 30, 1));
+		dialogInputPanel.add(calField);
+		dialogInputPanel.add(rowField);
+
 		base.add(view, BorderLayout.CENTER);
 
 		frame.setVisible(true);
+		dialog.setVisible(false);
 	}
 }
