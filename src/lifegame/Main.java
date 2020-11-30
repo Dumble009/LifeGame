@@ -8,13 +8,26 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
 
 public class Main implements Runnable {
 	BoardModel model;
+	int cols, rows;
+
+	public Main() {
+		cols = rows = 12;
+	}
+
+	public Main(int c, int r) {
+		super();
+		cols = c;
+		rows = r;
+	}
 
 	public static void main(String[] args) {
 		/*model.addListener(new ModelPrinter());
@@ -29,7 +42,7 @@ public class Main implements Runnable {
 	}
 
 	public void run() {
-		model = new BoardModel(12, 12);
+		model = new BoardModel(cols, rows);
 		JFrame frame = new JFrame("Lifegame");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -83,7 +96,7 @@ public class Main implements Runnable {
 
 		JButton newGameButton = new JButton("New Game");
 		newGameButton.addActionListener((ActionEvent e) -> {
-			SwingUtilities.invokeLater(new Main());
+			SwingUtilities.invokeLater(new Main(cols, rows));
 		});
 		buttonPanel.add(newGameButton);
 
@@ -104,15 +117,41 @@ public class Main implements Runnable {
 		buttonPanel.add(autoButton);
 
 		JButton configButton = new JButton("Config");
+		JSpinner colField = new JSpinner(new SpinnerNumberModel(cols, 2, 30, 1)),
+				rowField = new JSpinner(new SpinnerNumberModel(rows, 2, 30, 1));
+
+		JLabel colSpinnerLabel = new JLabel("列数"), rowSpinnerLabel = new JLabel("行数");
+
 		configButton.addActionListener((ActionEvent e) -> {
 			dialog.setVisible(true);
+			colField.setValue(cols);
+			rowField.setValue(rows);
 		});
+
+		colField.addChangeListener((ChangeEvent e) -> {
+			JSpinner spin = (JSpinner) e.getSource();
+			cols = (int) spin.getValue();
+		});
+
+		rowField.addChangeListener((ChangeEvent e) -> {
+			JSpinner spin = (JSpinner) e.getSource();
+			rows = (int) spin.getValue();
+		});
+
 		buttonPanel.add(configButton);
 
-		JSpinner calField = new JSpinner(new SpinnerNumberModel(12, 2, 30, 1)),
-				rowField = new JSpinner(new SpinnerNumberModel(12, 2, 30, 1));
-		dialogInputPanel.add(calField);
+		dialogInputPanel.add(colSpinnerLabel);
+		dialogInputPanel.add(colField);
+		dialogInputPanel.add(rowSpinnerLabel);
 		dialogInputPanel.add(rowField);
+
+		JButton configNewGameButton = new JButton("New Game");
+		configNewGameButton.addActionListener((ActionEvent e) -> {
+			dialog.setVisible(false);
+			SwingUtilities.invokeLater(new Main(cols, rows));
+		});
+
+		dialogButtonPanel.add(configNewGameButton);
 
 		base.add(view, BorderLayout.CENTER);
 
