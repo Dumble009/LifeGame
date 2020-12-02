@@ -90,9 +90,6 @@ public class Main implements Runnable {
 		});
 		buttonPanel.add(undoButton);
 		undoButton.setEnabled(false);
-		model.addListener((BoardModel m) -> {
-			undoButton.setEnabled(model.isUndoable());
-		});
 
 		JButton newGameButton = new JButton("New Game");
 		newGameButton.addActionListener((ActionEvent e) -> {
@@ -109,14 +106,22 @@ public class Main implements Runnable {
 			if (autoThread.getIsRunning()) {
 				autoThread.stopRun();
 				view.setIsInteractive(true);
+				nextButton.setEnabled(true);
+				undoButton.setEnabled(true);
 				autoButton.setText("Auto");
 			} else {
 				autoThread.startRun();
 				view.setIsInteractive(false);
+				nextButton.setEnabled(false);
+				undoButton.setEnabled(false);
 				autoButton.setText("Stop");
 			}
 		});
 		buttonPanel.add(autoButton);
+
+		model.addListener((BoardModel m) -> {
+			undoButton.setEnabled(model.isUndoable() && !autoThread.getIsRunning());
+		});
 
 		JButton configButton = new JButton("Config");
 		JSpinner colField = new JSpinner(new SpinnerNumberModel(cols, 2, 30, 1)),
