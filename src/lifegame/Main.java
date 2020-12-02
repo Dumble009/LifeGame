@@ -108,9 +108,11 @@ public class Main implements Runnable {
 		autoButton.addActionListener((ActionEvent e) -> {
 			if (autoThread.getIsRunning()) {
 				autoThread.stopRun();
+				view.setIsInteractive(true);
 				autoButton.setText("Auto");
 			} else {
 				autoThread.startRun();
+				view.setIsInteractive(false);
 				autoButton.setText("Stop");
 			}
 		});

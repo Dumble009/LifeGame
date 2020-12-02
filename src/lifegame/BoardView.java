@@ -12,6 +12,8 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 	int pointingCellRow, pointingCellCol;
 	BoardModel model;
 
+	boolean isInteractive;
+
 	public BoardView(BoardModel _model) {
 		super();
 		model = _model;
@@ -21,6 +23,8 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 
 		pointingCellRow = 0;
 		pointingCellCol = 0;
+
+		isInteractive = true;
 
 		for (int x = 0; x < cols; x++) {
 			for (int y = 0; y < rows; y++) {
@@ -37,6 +41,10 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 		grid.paint(g);
 	}
 
+	public void setIsInteractive(boolean val) {
+		isInteractive = val;
+	}
+
 	@Override
 	public void updated(BoardModel m) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -51,13 +59,15 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO 自動生成されたメソッド・スタブ
-		int pRow = pointingCellRow, pCol = pointingCellCol;
-		pointingCellRow = grid.getRowFromPointerY(e.getY());
-		pointingCellCol = grid.getColFromPointerX(e.getX());
+		if (isInteractive) {
+			// TODO 自動生成されたメソッド・スタブ
+			int pRow = pointingCellRow, pCol = pointingCellCol;
+			pointingCellRow = grid.getRowFromPointerY(e.getY());
+			pointingCellCol = grid.getColFromPointerX(e.getX());
 
-		if (pRow != pointingCellRow || pCol != pointingCellCol) {
-			model.changeCellState(pointingCellCol, pointingCellRow);
+			if (pRow != pointingCellRow || pCol != pointingCellCol) {
+				model.changeCellState(pointingCellCol, pointingCellRow);
+			}
 		}
 	}
 
@@ -76,10 +86,12 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO 自動生成されたメソッド・スタブ
-		pointingCellRow = grid.getRowFromPointerY(e.getY());
-		pointingCellCol = grid.getColFromPointerX(e.getX());
-		model.changeCellState(pointingCellCol, pointingCellRow);
+		if (isInteractive) {
+			// TODO 自動生成されたメソッド・スタブ
+			pointingCellRow = grid.getRowFromPointerY(e.getY());
+			pointingCellCol = grid.getColFromPointerX(e.getX());
+			model.changeCellState(pointingCellCol, pointingCellRow);
+		}
 	}
 
 	@Override
