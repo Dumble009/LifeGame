@@ -17,13 +17,13 @@ public class AutoRunner extends Thread {
 					}
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					System.err.println(e);
+					return;
 				}
 			}
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				System.err.println(e);
+				return;
 			}
 		}
 	}

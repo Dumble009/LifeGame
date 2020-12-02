@@ -44,7 +44,7 @@ public class Main implements Runnable {
 	public void run() {
 		model = new BoardModel(cols, rows);
 		JFrame frame = new JFrame("Lifegame");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JPanel base = new JPanel();
 		frame.setContentPane(base);
@@ -158,6 +158,7 @@ public class Main implements Runnable {
 		base.add(view, BorderLayout.CENTER);
 
 		frame.setVisible(true);
+		frame.addWindowListener(new ShutdownAdapter(frame, autoThread));
 		dialog.setVisible(false);
 	}
 }
