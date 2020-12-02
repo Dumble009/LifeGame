@@ -10,7 +10,7 @@ public class BoardModel {
 	private boolean[][] cells;
 	private ArrayList<BoardListener> listeners;
 	private Deque<boolean[][]> cellHistory;
-	final int undoMaxCount = 32;
+	private final int undoMaxCount = 32;
 
 	public BoardModel(int c, int r) {
 		cols = c;
@@ -47,12 +47,16 @@ public class BoardModel {
 		}
 	}
 
+	public void startEdit() {
+		addToHistory();
+	}
+
 	public void changeCellState(int x, int y) {
 		if (x >= cols || y >= rows || x < 0 || y < 0) {
 			return;
 		}
 		cells[y][x] = !cells[y][x];
-		this.fireUpdate();
+		fireUpdate();
 	}
 
 	public void addListener(BoardListener listener) {
@@ -122,7 +126,13 @@ public class BoardModel {
 	}
 
 	private void addToHistory() {
-		cellHistory.addFirst(cells);
+		var history = new boolean[rows][cols];
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				history[r][c] = cells[r][c];
+			}
+		}
+		cellHistory.addFirst(history);
 		if (cellHistory.size() > undoMaxCount) {
 			cellHistory.removeLast();
 		}

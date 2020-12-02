@@ -3,8 +3,8 @@ package lifegame;
 import java.awt.Graphics;
 
 public class Cell {
-	boolean isAlive;
-	int x, y, size;
+	private boolean isAlive;
+	private int x, y, size;
 
 	public Cell(int _x, int _y, int _size) {
 		isAlive = false;

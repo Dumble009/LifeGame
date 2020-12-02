@@ -6,17 +6,22 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 public class ShutdownAdapter extends WindowAdapter {
-	JFrame frame;
-	Thread thread;
+	private JFrame frame;
+	private AutoRunner autoRunner;
 
-	ShutdownAdapter(JFrame f, Thread t) {
+	ShutdownAdapter(JFrame f, AutoRunner a) {
 		super();
 		frame = f;
-		thread = t;
+		autoRunner = a;
 	}
 
-	public void windowClosing(WindowEvent e) {
-		thread.interrupt();
+	public void windowClosing(WindowEvent ev) {
+		autoRunner.finish();
+		try {
+			autoRunner.join();
+		} catch (InterruptedException e) {
+			System.err.println(e);
+		}
 		frame.dispose();
 	}
 }

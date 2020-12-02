@@ -3,12 +3,12 @@ package lifegame;
 import java.awt.Graphics;
 
 public class CellGrid {
-	int cols, rows;
-	int offsetX, offsetY;
+	private int cols, rows;
+	private int offsetX, offsetY;
 
-	Cell[][] cells;
+	private Cell[][] cells;
 
-	int size = 20;
+	private int size = 20;
 
 	public CellGrid(int _cols, int _rows) {
 		cols = _cols;
@@ -71,5 +71,13 @@ public class CellGrid {
 
 	public int getColFromPointerX(int pointerX) {
 		return (pointerX - offsetX) / size;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public int getRows() {
+		return rows;
 	}
 }

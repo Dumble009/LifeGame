@@ -8,9 +8,9 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 
 public class BoardView extends JPanel implements BoardListener, MouseMotionListener, MouseListener {
-	CellGrid grid;
-	int pointingCellRow, pointingCellCol;
-	BoardModel model;
+	private CellGrid grid;
+	private int pointingCellRow, pointingCellCol;
+	private BoardModel model;
 
 	boolean isInteractive;
 
@@ -90,14 +90,16 @@ public class BoardView extends JPanel implements BoardListener, MouseMotionListe
 			// TODO 自動生成されたメソッド・スタブ
 			pointingCellRow = grid.getRowFromPointerY(e.getY());
 			pointingCellCol = grid.getColFromPointerX(e.getX());
-			model.changeCellState(pointingCellCol, pointingCellRow);
+			if (pointingCellCol < grid.getCols() && pointingCellRow < grid.getRows()) {
+				model.startEdit();
+				model.changeCellState(pointingCellCol, pointingCellRow);
+			}
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override

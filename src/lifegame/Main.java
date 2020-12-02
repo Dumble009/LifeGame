@@ -16,8 +16,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
 public class Main implements Runnable {
-	BoardModel model;
-	int cols, rows;
+	private BoardModel model;
+	private int cols, rows;
 
 	public Main() {
 		cols = rows = 12;
@@ -30,14 +30,6 @@ public class Main implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		/*model.addListener(new ModelPrinter());
-		model.changeCellState(1, 1);
-		model.changeCellState(2, 2);
-		model.changeCellState(0, 3);
-		model.changeCellState(1, 3);
-		model.changeCellState(2, 3);
-		model.changeCellState(4, 4);
-		model.changeCellState(4, 4);*/
 		SwingUtilities.invokeLater(new Main());
 	}
 
